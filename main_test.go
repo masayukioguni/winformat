@@ -30,10 +30,22 @@ func TestDescribe(t *testing.T) {
 				Expect(winFormat.GetSubSequence()).To(Equal, 0)
 			})
 
-			It("SamplingSize is 4", func() {
+			It("channel is  0", func() {
+				Expect(winFormat.GetChannel()).To(Equal, 0)
+			})
 
+			It("SamplingRate is 200", func() {
+				Expect(winFormat.GetSamplingRate()).To(Equal, 200)
+			})
+
+			It("SamplingSize is 4", func() {
 				Expect(winFormat.GetSamplingSize()).To(Equal, 4)
 			})
+			/*
+				It("datetime is xxxxxxx", func() {
+					Expect(winFormat.GetDateTime()).To(Equal, 4)
+				})
+			*/
 		})
 
 		Context("when SamplingSize is 3", func() {

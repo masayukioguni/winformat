@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	//"github.com/masayukioguni/bcd"
+	//. "github.com/masayukioguni/bcd"
 	"strconv"
 )
 
@@ -49,6 +49,29 @@ func (winFormat *WinFormat) GetSamplingSize() int {
 func (winFormat *WinFormat) GetSamplingRate() int {
 	return int((winFormat.size&0x0f)<<8 | winFormat.rate&0xff)
 }
+
+/*
+func (winFormat *WinFormat) GetDateTime() time.Time {
+	datetime := fmt.Sprintf("20%02d-%02d-%02d %02d:%02d:%02d +0900",
+		bcd.BcdToInt(int(winFormat.year)),
+		bcd.BcdToInt(int(winFormat.month)),
+		bcd.BcdToInt(int(winFormat.day)),
+		bcd.BcdToInt(int(winFormat.hour)),
+		bcd.BcdToInt(int(winFormat.minute)),
+		bcd.BcdToInt(int(winFormat.second)))
+	fmt.Println(datetime)
+
+	t, err := time.Parse(
+		"2006-01-02 15:04:05 +0900", // スキャンフォーマット
+		datetime)                    // パースしたい文字列
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(t)
+
+	return t
+}
+*/
 
 func Parse(buffer []byte) *WinFormat {
 	winformat := WinFormat{}
