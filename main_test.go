@@ -18,7 +18,7 @@ func ReadBinaryFile(filename string) []byte {
 }
 
 func TestDescribe(t *testing.T) {
-	Describe(t, "Parse", func() {
+	Describe(t, "Parse WinFormat Data", func() {
 		Context("when SamplingSize is 4", func() {
 			winFormat := Parse(ReadBinaryFile("./testdata/4.bin"))
 
@@ -26,11 +26,11 @@ func TestDescribe(t *testing.T) {
 				Expect(winFormat.GetSequence()).To(Equal, 0)
 			})
 
-			It("SubSequence is  0", func() {
+			It("SubSequence is 0", func() {
 				Expect(winFormat.GetSubSequence()).To(Equal, 0)
 			})
 
-			It("channel is  0", func() {
+			It("channel is 0", func() {
 				Expect(winFormat.GetChannel()).To(Equal, 0)
 			})
 
@@ -41,17 +41,37 @@ func TestDescribe(t *testing.T) {
 			It("SamplingSize is 4", func() {
 				Expect(winFormat.GetSamplingSize()).To(Equal, 4)
 			})
-			/*
-				It("datetime is xxxxxxx", func() {
-					Expect(winFormat.GetDateTime()).To(Equal, 4)
-				})
-			*/
+
+			It("datetime is 2014-08-26T19:53:32Z", func() {
+				Expect(winFormat.GetDateTime()).To(Equal, "2014-08-26T19:53:32Z")
+			})
+
 		})
 
 		Context("when SamplingSize is 3", func() {
 			winFormat := Parse(ReadBinaryFile("./testdata/3.bin"))
+			It("Sequence is 2 ", func() {
+				Expect(winFormat.GetSequence()).To(Equal, 2)
+			})
+
+			It("SubSequence is 2", func() {
+				Expect(winFormat.GetSubSequence()).To(Equal, 2)
+			})
+
+			It("channel is 1", func() {
+				Expect(winFormat.GetChannel()).To(Equal, 1)
+			})
+
+			It("SamplingRate is 100", func() {
+				Expect(winFormat.GetSamplingRate()).To(Equal, 100)
+			})
+
 			It("SamplingSize is 3", func() {
 				Expect(winFormat.GetSamplingSize()).To(Equal, 3)
+			})
+
+			It("datetime is 2014-08-27T12:57:28Z", func() {
+				Expect(winFormat.GetDateTime()).To(Equal, "2014-08-27T12:57:28Z")
 			})
 		})
 

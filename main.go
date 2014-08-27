@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	//. "github.com/masayukioguni/bcd"
+	"github.com/masayukioguni/bcd"
+	"log"
 	"strconv"
+	"time"
 )
 
 type WinFormat struct {
@@ -50,28 +52,23 @@ func (winFormat *WinFormat) GetSamplingRate() int {
 	return int((winFormat.size&0x0f)<<8 | winFormat.rate&0xff)
 }
 
-/*
-func (winFormat *WinFormat) GetDateTime() time.Time {
-	datetime := fmt.Sprintf("20%02d-%02d-%02d %02d:%02d:%02d +0900",
+func (winFormat *WinFormat) GetDateTime() string {
+	datetime := fmt.Sprintf("20%02d-%02d-%02d %02d:%02d:%02d +09:00",
 		bcd.BcdToInt(int(winFormat.year)),
 		bcd.BcdToInt(int(winFormat.month)),
 		bcd.BcdToInt(int(winFormat.day)),
 		bcd.BcdToInt(int(winFormat.hour)),
 		bcd.BcdToInt(int(winFormat.minute)),
 		bcd.BcdToInt(int(winFormat.second)))
-	fmt.Println(datetime)
-
 	t, err := time.Parse(
-		"2006-01-02 15:04:05 +0900", // スキャンフォーマット
-		datetime)                    // パースしたい文字列
+		"2006-01-02 15:04:05 +09:00", // スキャンフォーマット
+		datetime)                     // パースしたい文字列
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(t)
 
-	return t
+	return t.Format(time.RFC3339)
 }
-*/
 
 func Parse(buffer []byte) *WinFormat {
 	winformat := WinFormat{}
@@ -96,13 +93,13 @@ func Parse(buffer []byte) *WinFormat {
 
 	winformat.Sampling = make([]int32, rate-1)
 
-	fmt.Printf("%d %d %d %d %d %d\n", int(winformat.year),
-		int(winformat.month),
-		int(winformat.day),
-		int(winformat.hour),
-		int(winformat.minute),
-		int(winformat.second))
 	/*
+		fmt.Printf("%d %d %d %d %d %d\n", int(winformat.year),
+			int(winformat.month),
+			int(winformat.day),
+			int(winformat.hour),
+			int(winformat.minute),
+			int(winformat.second))
 		fmt.Printf("%0X%0X %X %04X %02d%02d%02d%02d%02d%02d %04X %02X%02X(%d %d) %08X\n", winformat.sequence,
 			winformat.subSequence,
 			int(winformat.A0),
@@ -154,12 +151,8 @@ func Parse(buffer []byte) *WinFormat {
 			var value int8
 			binary.Read(buf, binary.BigEndian, &value)
 			winformat.Sampling[i] = int32(value)
-			//fmt.Printf("%d %x %x%x \n", i, value, winformat.Sampling[i]&0xf0, (winformat.Sampling[i])&0x0f)
 		}
 	}
 
-	for i := 0; i < int(rate)-1; i++ {
-		//fmt.Printf("%d %x\n", i, winformat.Sampling[i])
-	}
 	return &winformat
 }
