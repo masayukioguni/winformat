@@ -24,7 +24,7 @@ type WinFormat struct {
 	channel     uint16
 	rate        byte
 	size        byte
-	FirstSample int32
+	firstSample int32
 	Sampling    []int32
 }
 
@@ -50,6 +50,10 @@ func (winFormat *WinFormat) GetSamplingSize() int {
 
 func (winFormat *WinFormat) GetSamplingRate() int {
 	return int((winFormat.size&0x0f)<<8 | winFormat.rate&0xff)
+}
+
+func (winFormat *WinFormat) GetFirstSample() int {
+	return int(winFormat.firstSample)
 }
 
 func (winFormat *WinFormat) GetDateTime() string {
@@ -86,7 +90,7 @@ func Parse(buffer []byte) *WinFormat {
 	binary.Read(buf, binary.BigEndian, &winformat.channel)
 	binary.Read(buf, binary.BigEndian, &winformat.size)
 	binary.Read(buf, binary.BigEndian, &winformat.rate)
-	binary.Read(buf, binary.BigEndian, &winformat.FirstSample)
+	binary.Read(buf, binary.BigEndian, &winformat.firstSample)
 
 	size := winformat.size >> 4
 	rate := (winformat.size&0x0f)<<8 | winformat.rate&0xff

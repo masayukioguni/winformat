@@ -46,6 +46,10 @@ func TestDescribe(t *testing.T) {
 				Expect(winFormat.GetDateTime()).To(Equal, "2014-08-26T19:53:32Z")
 			})
 
+			It("firstsample is ", func() {
+				Expect(winFormat.GetFirstSample()).To(Equal, 447712320)
+			})
+
 		})
 
 		Context("when SamplingSize is 3", func() {
