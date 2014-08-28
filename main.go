@@ -56,8 +56,8 @@ func (winFormat *WinFormat) GetFirstSample() int {
 	return int(winFormat.firstSample)
 }
 
-func (winFormat *WinFormat) GetDateTime() string {
-	datetime := fmt.Sprintf("20%02d-%02d-%02d %02d:%02d:%02d +09:00",
+func (winFormat *WinFormat) GetUnixDateTime() int64 {
+	datetime := fmt.Sprintf("20%02d-%02d-%02dT%02d:%02d:%02d+09:00",
 		bcd.BcdToInt(int(winFormat.year)),
 		bcd.BcdToInt(int(winFormat.month)),
 		bcd.BcdToInt(int(winFormat.day)),
@@ -65,13 +65,11 @@ func (winFormat *WinFormat) GetDateTime() string {
 		bcd.BcdToInt(int(winFormat.minute)),
 		bcd.BcdToInt(int(winFormat.second)))
 	t, err := time.Parse(
-		"2006-01-02 15:04:05 +09:00", // スキャンフォーマット
-		datetime)                     // パースしたい文字列
+		time.RFC3339, datetime)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	return t.Format(time.RFC3339)
+	return t.Unix()
 }
 
 func Parse(buffer []byte) *WinFormat {

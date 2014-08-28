@@ -40,8 +40,8 @@ func TestDescribe(t *testing.T) {
 				Expect(winFormat.GetSamplingSize()).To(Equal, 4)
 			})
 
-			It("datetime is 2014-08-26T19:53:32Z", func() {
-				Expect(winFormat.GetDateTime()).To(Equal, "2014-08-26T19:53:32Z")
+			It("datetime is 1409050412", func() {
+				Expect(winFormat.GetUnixDateTime()).To(Equal, int64(1409050412))
 			})
 
 			It("firstsample is ", func() {
@@ -72,8 +72,8 @@ func TestDescribe(t *testing.T) {
 				Expect(winFormat.GetSamplingSize()).To(Equal, 3)
 			})
 
-			It("datetime is 2014-08-27T12:57:28Z", func() {
-				Expect(winFormat.GetDateTime()).To(Equal, "2014-08-27T12:57:28Z")
+			It("datetime is 1409111848", func() {
+				Expect(winFormat.GetUnixDateTime()).To(Equal, int64(1409111848))
 			})
 		})
 
