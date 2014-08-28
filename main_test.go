@@ -1,8 +1,6 @@
 package winformat
 
 import (
-	//"bytes"
-	//"encoding/binary"
 	. "github.com/r7kamura/gospel"
 	"os"
 	"testing"
